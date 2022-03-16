@@ -1,0 +1,13 @@
+---
+- name: Build the chrony MachineConfig for {{ item }}
+  template: 
+    src: 99-role-chrony-configuration.yaml.j2
+    dest: working/99-{{ item }}-chrony-configuration.yaml
+
+- name: Apply the config to OCP
+  kubernetes.core.k8s:
+    state: present
+    src: working/99-{{ item }}-chrony-configuration.yaml
+
+
+

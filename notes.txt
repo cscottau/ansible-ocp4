@@ -1,0 +1,4 @@
+ansible-galaxy collection install kubernetes.core
+ansible-galaxy collection install community.general
+
+pip install openshift pyyaml kubernetes

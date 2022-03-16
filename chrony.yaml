@@ -1,0 +1,23 @@
+---
+- name: Configure ntp
+  hosts: bastion
+  connection: local
+  tasks:
+
+  - name: Build the config string including the NTP server
+    template:
+      src: chrony.conf.j2
+      dest: working/chrony.conf
+      mode: '0644'
+  
+  - name: Base64 encode the ntp config
+    ansible.builtin.slurp:
+      src: working/chrony.conf 
+    register: ntp_server_base64
+
+  - name: Build and apply the chrony MachineConfigs
+    include_tasks: chrony-config.yaml
+    with_items:
+    - master
+    - worker
+
